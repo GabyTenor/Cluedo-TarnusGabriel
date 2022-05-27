@@ -71,6 +71,7 @@ namespace Cluedo_TarnusGabriel
                     int comptePerd = 0; //Variable qui va compter le nombre de perdant. Si $comptePerd = 3, la partie est fini ($perdu = true)
 
                     string[] etui = new string[3];  //Variable de l'étui (Contiendra la solution du jeu. 3 lignes : 3 cartes (1 de chaque type))f
+                    string afEtui;
 
                     int[,] cardJ = new int[3, 6];           //Tableau à double dimensions qui va contenir les indices de chaque cartes donnés aux joueurs (3 lignes = 3 joueurs, 6 colonnes = 6 cartes)
                     string[,] affCartes = new string[3, 6];     //Tableau à une dimension qui affichera le contenu des cartes à chacun des joueurs quand ces derniers le souhaite (3 lignes = 3 joueurs, 6 colonnes = 6 cartes)
@@ -84,6 +85,7 @@ namespace Cluedo_TarnusGabriel
 
                     bool[] elimine = new bool[3] { false, false, false };   //Variable pour savoir si les joueurs sont éliminés ou pas pour si oui les empêcher de jouer
                     bool[] gagne = new bool[3] { false, false, false };     //Variable pour trouver le gagnant parmis les trois joueurs pour ensuite mettre fin au jeu
+                    int gagnant = 0;    //Variable qui dit quel joueur a gagné
 
                     string[] victimes = new string[6] { "Abdulrahman Naji", "Lukas Debry", "Thomas van Goethem", "Nathan Leemans", "Damien Pelaez-Diaz", "Simon Abras" };   //Variable pour choisir la personne tué
                     string[] decouverte = new string[4] { "dans le distributeur, on se demande si la canette sera fraiche", "sur le pique à drapeau, il va glisser pendant longtemps", "dans la poubelle, le malheureux pue les déchets plus que la mort", "dans une chambre d'interne, qu'est-ce qu'il faisait là?" }; //Variable pour choisir le lieu où le cadavre a été découvert
@@ -102,6 +104,7 @@ namespace Cluedo_TarnusGabriel
                     Console.Clear();    //Commande pour rafraîchir l'écran. Principalement utilise quand les joueurs veulent refaire une partie
 
                     CreationEtui(ref etui, ref jeu);    //Appel de la fonction qui va créer l'étui   
+                    AffEtui(out afEtui, etui);
 
                     Distribution(ref jeu);  //Distribution des cartes aux joueurs
 
@@ -119,7 +122,7 @@ namespace Cluedo_TarnusGabriel
                     {
                         for (nJoueur = 0; nJoueur < afFiche.Length; nJoueur++)  //Compteur pour faire participer chaque joueur
                         {
-                            if (victoire == false || perdu == false)    //Empêcher la continuité du jeu si tout le monde a perdu ou si il y a un gagnant
+                            if (victoire == false && perdu == false)    //Empêcher la continuité du jeu si tout le monde a perdu ou si il y a un gagnant
                             {
                                 if (elimine[nJoueur] == false)  //Empêche un joueur de jouer si il a été éléminé
                                 {
@@ -151,11 +154,12 @@ namespace Cluedo_TarnusGabriel
 
                         for (nJoueur = 0; nJoueur < afFiche.Length; nJoueur++)  //Compteur pour faire participer chaque joueur
                         {
-                            if (victoire == false || perdu == false)    //Empêcher la continuité du jeu si tout le monde a perdu ou si il y a un gagnant
+                            if (victoire == false && perdu == false)    //Empêcher la continuité du jeu si tout le monde a perdu ou si il y a un gagnant
                             {
                                 if (elimine[nJoueur] == false)  //Empêche un joueur de jouer si il a été éléminé
                                 {
                                     Console.Clear();                        //Nettoyage de l'interface
+                                    Console.WriteLine(afEtui);
                                     Console.WriteLine("FICHE DE JEU:");     //Présente la fiche de jeu ci-dessous
                                     Console.WriteLine(afFiche[nJoueur]);    //Affichage de la fiche de jeu du joueur $nJoueur
 
@@ -175,20 +179,22 @@ namespace Cluedo_TarnusGabriel
                                     {
                                         Denonciation(nJoueur, ref denonciation, elimine, etui, gagne, ref comptePerd);  //Appel de la fonction de la dénonciation
                                     }
+                                    for (int detecGagne = 0; detecGagne < gagne.Length; detecGagne++)    //Compteur pour parcourir $gagne
+                                    {
+                                        if (gagne[detecGagne] == true)  //Si il y a 1 gagnant, alors...
+                                        {
+                                            victoire = true;    //Le jeu est terminé par une victoire d'un joueur
+                                            fini = true;        //Le jeu est terminé
+                                            gagnant = (detecGagne + 1);
+                                        }
+                                    }
                                 }
 
                             }
                         }
 
 
-                        for(int detecGagne = 0; detecGagne < gagne.Length; detecGagne++)    //Compteur pour parcourir $gagne
-                        {                            
-                            if (gagne[detecGagne] == true)  //Si il y a 1 gagnant, alors...
-                            {
-                                victoire = true;    //Le jeu est terminé par une victoire d'un joueur
-                                fini = true;        //Le jeu est terminé
-                            }
-                        }
+                        
 
                         if(comptePerd == 3) //Si tous les joueurs ont perdu, alors...
                         {
@@ -212,7 +218,7 @@ namespace Cluedo_TarnusGabriel
                     {
                         if (victoire == true)   //Si le jeu a été mis fin par une victoire, alors...
                         {
-                            Console.WriteLine("Encore bravo au gagnant! " + etui[2] + " paiera pour avoir commis ce crime. Contre le gré de Madame Lalaoui, elle subira la peine de mort!!!");  //Message de félécitation au gagnant et châtiment du tueur
+                            Console.WriteLine("Bravo au joueur " + gagnant + ", il est le vainqueur de cette partie! " + etui[2] + " paiera pour avoir assassiner sauvegement " + victimes[rnd1] + ". Contre le gré de Madame Lalaoui, le chatiment sera la peine de mort!!!");  //Message de félécitation au gagnant et châtiment du tueur
                             Console.ReadLine(); //ReadLine pour qu'ils puissent lire le texte à leur aise
                         }
                     }
@@ -252,6 +258,16 @@ namespace Cluedo_TarnusGabriel
             etui[2] = jeu[valeur].carteName;    //Rangement de la carte dans l'étui
             jeu[valeur].distribue = true;       //Modification de distribue pour ne pas distribuer la carte aux joueurs par accident
             jeu[valeur].joueur = -1;
+        }
+
+        static void AffEtui(out string afEtui, string[] etui)
+        {
+            afEtui = "";
+
+            for(int i = 0; i < etui.Length; i++)
+            {
+                afEtui = afEtui + " " + etui[i];
+            }
         }
 
         static void Distribution(ref Carte[] jeu)   //Fonction qui va distribuer les cartes restantes aux 6 joueurs de manières complètement aléatoire
@@ -416,24 +432,18 @@ namespace Cluedo_TarnusGabriel
             
             VerifDenonciation(nJoueur, denonciation, ref elimine, etui, ref gagne); //Appel de la fonction permettant de savoir si le joueur a correctement deviné
 
-            if(gagne[nJoueur] == true)  //Si le joueur a gagné, alors...
+            if(elimine[nJoueur] == true)    //Si le joueur est éléminé, alors...
             {
-                Console.WriteLine("Félicitations " + (nJoueur + 1) + ", vous avez gagné la partie!!!!");    //Message de félicitations pour le joueur qui a gagné
+               Console.WriteLine("Désolé " + (nJoueur + 1) + ", mais vous vous êtes trompez. Par conséquent vous êtes éléminé de la partie."); //Message indiquant au joueur qu'ik est expédié de la partie
+               Console.ReadLine(); //ReadLine pour que le joueur puisse lire le message à son aise
+               comptePerd++;   //Le nombre de perdant augmente
             }
-            else   //Sinon...
-            {
-                if(elemine[nJoueur] == true)    //Si le joueur est éléminé, alors...
-                {
-                    Console.WriteLine("Désolé " + (nJoueur + 1) + ", mais vous vous êtes trompez. Par conséquent vous êtes éléminé de la partie."); //Message indiquant au joueur qu'ik est expédié de la partie
-                    Console.ReadLine(); //ReadLine pour que le joueur puisse lire le message à son aise
-                    comptePerd++;   //Le nombre de perdant augmente
-                }
-            }
+            
         }
 
         static void VerifDenonciation(int nJoueur, string[] denonciation, ref bool[] elimine, string[] etui, ref bool[] gagne)  //Fonction qui va vérifier si la dénonciation du joueur est juste pour déterminé si il a gagné ou si il est éléminé
         {
-            int gagneCompt = 0;
+            int gagneCompt = 0; //Va servir à savoir combien de cartes le joueur a bien deviné
 
             bool[] trouve = new bool[3] { false, false, false };    //Bool pour noter pour chaque carte entré par l'utilisateur pour la dénonciation si elle est correcte
             for(int i = 0; i < denonciation.Length; i++)    //Compteur pour parcourir $denonciation[] et $etui[]

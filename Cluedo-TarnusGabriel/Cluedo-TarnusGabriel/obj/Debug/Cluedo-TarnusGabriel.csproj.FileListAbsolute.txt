@@ -16,3 +16,6 @@ C:\Users\gabta\Documents\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel5TTI\Cluedo-Ta
 C:\Users\gabta\Documents\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel5TTI\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel\obj\Debug\Cluedo-TarnusGabriel.csproj.CoreCompileInputs.cache
 C:\Users\gabta\Documents\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel5TTI\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel\obj\Debug\Cluedo-TarnusGabriel.exe
 C:\Users\gabta\Documents\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel5TTI\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel\obj\Debug\Cluedo-TarnusGabriel.pdb
+C:\Users\gabta\Documents\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel5TTI\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel\bin\Debug\Cluedo-TarnusGabriel.exe.config
+C:\Users\gabta\Documents\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel5TTI\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel\bin\Debug\Cluedo-TarnusGabriel.exe
+C:\Users\gabta\Documents\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel5TTI\Cluedo-TarnusGabriel\Cluedo-TarnusGabriel\bin\Debug\Cluedo-TarnusGabriel.pdb
